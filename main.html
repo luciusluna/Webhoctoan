@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lớp Toán Thầy Trần Tình - Phủ Lý, Hà Nam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- THIẾT LẬP CƠ BẢN --- */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --accent-color: #e74c3c;
+            --hover-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Đổi font hiện đại hơn */
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: #f4f4f4;
+            overflow-x: hidden; /* Tránh thanh cuộn ngang do animation */
+        }
+
+        /* --- HEADER ANIMATION --- */
+        header {
+            background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hiệu ứng chữ rơi từ trên xuống cho tiêu đề */
+        .header-content {
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header h1 { margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        header p { margin: 10px 0 0; font-size: 1.2rem; opacity: 0.9; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background-color: #343a40;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            display: inline-block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease; /* Mượt mà khi hover */
+        }
+
+        nav a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px); /* Nhấc nhẹ nút lên */
+        }
+
+        /* --- CONTAINER & SECTIONS --- */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            
+            /* Chuẩn bị cho Animation cuộn trang */
+            opacity: 0; 
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        /* Class này sẽ được JS thêm vào để kích hoạt hiện ra */
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        /* --- GRID & CARDS --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card-box {
+            background: #fff;
+            padding: 10px;
+        }
+
+        /* Hiệu ứng Card Giáo viên */
+        .teacher-card {
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s; /* Animation hover */
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px); /* Nổi lên khi di chuột */
+            box-shadow: var(--hover-shadow);
+        }
+
+        .teacher-card h3 { margin-top: 0; color: #d35400; }
+
+        /* --- BẢNG BIỂU --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        table, th, td { border: 1px solid #dee2e6; }
+        th, td { padding: 15px; text-align: left; }
+        th { background-color: var(--primary-color); color: white; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        
+        /* Hiệu ứng hover vào dòng bảng */
+        tr:hover { background-color: #e9ecef; transition: background 0.2s; }
+
+        /* --- FEE BOX (HỌC PHÍ) - GÂY CHÚ Ý --- */
+        .fee-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffecb3 100%);
+            border: 2px solid #ffeeba;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .fee-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
+        }
+
+        .price-highlight {
+            display: block;
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 10px 0;
+            
+            /* Animation nhịp đập nhẹ cho giá tiền */
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; }
+            nav a { display: block; border-bottom: 1px solid #444; }
+            header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <h1>LỚP TOÁN THẦY TRẦN TÌNH</h1>
+            <p>Chuyên luyện thi Toán Khối 6 & Khối 8 tại Phủ Lý, Hà Nam</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#mon-hoc">Môn Học</a>
+        <a href="#giao-vien">Giáo Viên</a>
+        <a href="#lich-hoc">Lịch Học</a>
+        <a href="#hoc-phi">Học Phí</a>
+        <a href="#lien-he">Liên Hệ</a>
+    </nav>
+
+    <div class="container">
+
+        <section id="mon-hoc">
+            <h2>Danh Mục Môn Học & Hình Thức</h2>
+            <div class="info-grid">
+                <div class="card-box">
+                    <h3>📚 Môn học</h3>
+                    <ul>
+                        <li><strong>Môn chính:</strong> Toán học.</li>
+                        <li><strong>Phân môn:</strong> Đại số và Hình học.</li>
+                        <li><strong>Đối tượng:</strong> Học sinh lớp 6 và lớp 8.</li>
+                    </ul>
+                </div>
+                <div class="card-box">
+                    <h3>🏫 Hình thức & Thời lượng</h3>
+                    <ul>
+                        <li><strong>Hình thức:</strong> Học trực tiếp (Offline) tại lớp.</li>
+                        <li><strong>Thời lượng:</strong> 3 tiếng / 1 buổi học.</li>
+                        <li><strong>Cấu trúc:</strong> 90p Đại số + 15p Giải lao + 90p Hình học.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="giao-vien">
+            <h2>Đội Ngũ Giáo Viên</h2>
+            <div class="teacher-card">
+                <h3>Thầy Trần Văn Tình</h3>
+                <p><strong>Vai trò:</strong> Chủ nhiệm lớp / Quản lý chuyên môn.</p>
+                <p><strong>Quê quán:</strong> Thanh Liêm, Hà Nam.</p>
+                <p><strong>Liên hệ:</strong> 0976 015 863 - 0988 339 256.</p>
+            </div>
+
+            <div class="teacher-card">
+                <h3>Cô Lê Thị Phương</h3>
+                <p><strong>Trình độ:</strong> VB1 Tin học & VB2 Toán học (ĐH Sư phạm Hà Nội).</p>
+                <p><strong>Đơn vị công tác:</strong> Tiên Tân, Phủ Lý.</p>
+                <p><strong>Số điện thoại:</strong> 0389 914 628.</p>
+            </div>
+        </section>
+
+        <section id="lich-hoc">
+            <h2>Thời Khóa Biểu & Địa Điểm</h2>
+            <p><strong>📍 Địa điểm:</strong> Số 12 Ngõ 36 Phố Nguyễn Quốc Hiệu, KĐT Nam Trần Hưng Đạo, Phủ Lý.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ngày học</th>
+                        <th>Khung giờ</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Thứ 5 hàng tuần</td>
+                        <td>17h30 - 20h45</td>
+                        <td>Học sinh học ghép cả 2 ca (Đại số & Hình học) để đảm bảo thời lượng.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="hoc-phi">
+            <h2>Mức Thu Tiền Học Thêm</h2>
+            <div class="fee-box">
+                <p>Mức học phí trọn gói / tháng</p>
+                <span class="price-highlight">700.000 VNĐ</span>
+                <p><em>(Cố định hàng tháng bất kể số buổi, kể cả tháng Tết/Lễ)</em></p>
+                <hr style="border-color: #ffeeba; margin: 15px 0;">
+                <p style="text-align: left;">
+                    <strong>🔹 HS mới vào giữa tháng:</strong> 175.000đ / buổi.<br>
+                    <strong>🔹 Thời gian đóng:</strong> Mùng 1 - Mùng 8 hàng tháng.<br>
+                    <strong>🔹 Hình thức:</strong> Chuyển khoản ngân hàng.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>⚠️ Nội Quy Tóm Tắt</h2>
+            <ul>
+                <li>Nộp BTVN cho Trợ giảng trước giờ vào lớp.</li>
+                <li>Nghỉ học phải nộp BTVN bù vào buổi sau.</li>
+                <li>Vi phạm kỷ luật (mất trật tự, chép thiếu bài) sẽ bị phạt chép "Lời dạy Bác Hồ".</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <footer id="lien-he">
+        <h3>LỚP TOÁN THẦY TRẦN TÌNH</h3>
+        <p>Địa chỉ: KĐT Nam Trần Hưng Đạo, Phủ Lý, Hà Nam.</p>
+        <p>Hotline: 0976 015 863</p>
+        <p>&copy; 2025 - Loptoanthaytrantinh.</p>
+    </footer>
+
+    <script>
+        // Sử dụng Intersection Observer để phát hiện khi nào người dùng cuộn tới phần tử
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Khi 15% phần tử xuất hiện thì kích hoạt
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Chỉ chạy 1 lần
+                }
+            });
+        }, observerOptions);
+
+        // Áp dụng cho tất cả thẻ section
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+
+</body>
+</html>
