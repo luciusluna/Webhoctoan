@@ -9,70 +9,102 @@
         /* --- THIẾT LẬP CƠ BẢN --- */
         :root {
             --primary-color: #0056b3;
-            --secondary-color: #f8f9fa;
             --text-color: #333;
             --accent-color: #e74c3c;
-            --hover-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            --nav-bg: #343a40;
         }
 
         body {
-            font-family: 'Roboto', sans-serif; /* Đổi font hiện đại hơn */
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
             color: var(--text-color);
             background-color: #f4f4f4;
-            overflow-x: hidden; /* Tránh thanh cuộn ngang do animation */
+            padding-top: 60px; /* Khoảng trống để không bị Header che mất nội dung đầu tiên */
         }
 
-        /* --- HEADER ANIMATION --- */
+        /* --- HEADER (LOGO & TITLE) --- */
         header {
             background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
             color: white;
-            padding: 40px 0;
+            padding: 30px 20px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        /* Hiệu ứng chữ rơi từ trên xuống cho tiêu đề */
-        .header-content {
-            animation: slideDown 1s ease-out;
-        }
+        header h1 { margin: 0; font-size: 2.2rem; text-transform: uppercase; }
+        header p { margin: 10px 0 0; font-size: 1.1rem; opacity: 0.9; }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        header h1 { margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 1px; }
-        header p { margin: 10px 0 0; font-size: 1.2rem; opacity: 0.9; }
-
-        /* --- NAVIGATION --- */
-        nav {
-            background-color: #343a40;
-            text-align: center;
-            position: sticky;
+        /* --- NAVIGATION (THANH MENU) --- */
+        .navbar {
+            background-color: var(--nav-bg);
+            position: fixed; /* Luôn dính trên cùng */
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
-        nav a {
-            display: inline-block;
-            padding: 15px 20px;
+        /* Logo nhỏ trên thanh menu (hiện khi cuộn hoặc trên mobile) */
+        .nav-brand {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+            display: none; /* Mặc định ẩn, chỉ hiện trên mobile hoặc tùy ý */
+        }
+
+        /* Danh sách menu */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            justify-content: center; /* Căn giữa trên Desktop */
+        }
+
+        .nav-item {
+            margin: 0 15px;
+        }
+
+        .nav-link {
             color: white;
             text-decoration: none;
             font-weight: bold;
-            transition: all 0.3s ease; /* Mượt mà khi hover */
+            font-size: 1rem;
+            transition: 0.3s;
+            padding: 10px;
+            display: block;
         }
 
-        nav a:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-2px); /* Nhấc nhẹ nút lên */
+        .nav-link:hover {
+            color: var(--accent-color);
         }
 
-        /* --- CONTAINER & SECTIONS --- */
+        /* Nút Hamburger (Ẩn trên Desktop) */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* --- CONTAINER --- */
         .container {
             max-width: 1100px;
             margin: auto;
@@ -80,262 +112,179 @@
         }
 
         section {
-            margin-bottom: 40px;
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            
-            /* Chuẩn bị cho Animation cuộn trang */
-            opacity: 0; 
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        /* Class này sẽ được JS thêm vào để kích hoạt hiện ra */
-        section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-            display: inline-block;
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
-
-        /* --- GRID & CARDS --- */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .card-box {
-            background: #fff;
-            padding: 10px;
-        }
-
-        /* Hiệu ứng Card Giáo viên */
-        .teacher-card {
-            border-left: 5px solid var(--primary-color);
-            padding: 20px;
+            margin-bottom: 30px;
             border-radius: 8px;
-            background-color: white;
-            margin-bottom: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s; /* Animation hover */
+            scroll-margin-top: 80px; /* Để khi click menu không bị che mất tiêu đề */
         }
 
-        .teacher-card:hover {
-            transform: translateY(-5px); /* Nổi lên khi di chuột */
-            box-shadow: var(--hover-shadow);
-        }
+        h2 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; }
 
-        .teacher-card h3 { margin-top: 0; color: #d35400; }
-
-        /* --- BẢNG BIỂU --- */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        }
-        table, th, td { border: 1px solid #dee2e6; }
-        th, td { padding: 15px; text-align: left; }
+        /* Bảng và Grid */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: var(--primary-color); color: white; }
-        tr:nth-child(even) { background-color: #f8f9fa; }
-        
-        /* Hiệu ứng hover vào dòng bảng */
-        tr:hover { background-color: #e9ecef; transition: background 0.2s; }
 
-        /* --- FEE BOX (HỌC PHÍ) - GÂY CHÚ Ý --- */
-        .fee-box {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffecb3 100%);
-            border: 2px solid #ffeeba;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s;
+        /* Card Giáo viên */
+        .teacher-card {
+            border-left: 4px solid var(--primary-color);
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
         }
 
-        .fee-box:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
-        }
+        /* Footer */
+        footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 40px; }
 
-        .price-highlight {
-            display: block;
-            font-size: 2rem;
-            color: var(--accent-color);
-            font-weight: bold;
-            margin: 10px 0;
-            
-            /* Animation nhịp đập nhẹ cho giá tiền */
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-        }
-
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE MOBILE (QUAN TRỌNG) --- */
         @media (max-width: 768px) {
+            .nav-brand { display: block; } /* Hiện tên lớp học góc trái */
+            
+            .hamburger {
+                display: block; /* Hiện nút 3 gạch */
+                margin-left: auto; /* Đẩy sang phải */
+            }
+
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%; /* Giấu menu sang bên trái */
+                top: 60px; /* Nằm ngay dưới thanh header */
+                flex-direction: column;
+                background-color: var(--nav-bg);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                padding-bottom: 20px;
+            }
+
+            .nav-menu.active {
+                left: 0; /* Trượt ra khi active */
+            }
+
+            .nav-item { margin: 20px 0; }
+            
             .info-grid { grid-template-columns: 1fr; }
-            nav a { display: block; border-bottom: 1px solid #444; }
-            header h1 { font-size: 1.8rem; }
+            
+            header h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
+    <nav class="navbar">
+        <a href="#" class="nav-brand">LỚP TOÁN THẦY TÌNH</a>
+
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#mon-hoc" class="nav-link">Môn Học</a></li>
+            <li class="nav-item"><a href="#giao-vien" class="nav-link">Giáo Viên</a></li>
+            <li class="nav-item"><a href="#lich-hoc" class="nav-link">Lịch Học</a></li>
+            <li class="nav-item"><a href="#hoc-phi" class="nav-link">Học Phí</a></li>
+            <li class="nav-item"><a href="#noi-quy" class="nav-link">Nội Quy</a></li>
+        </ul>
+    </nav>
+
     <header>
-        <div class="container header-content">
+        <div class="container">
             <h1>LỚP TOÁN THẦY TRẦN TÌNH</h1>
             <p>Chuyên luyện thi Toán Khối 6 & Khối 8 tại Phủ Lý, Hà Nam</p>
         </div>
     </header>
 
-    <nav>
-        <a href="#mon-hoc">Môn Học</a>
-        <a href="#giao-vien">Giáo Viên</a>
-        <a href="#lich-hoc">Lịch Học</a>
-        <a href="#hoc-phi">Học Phí</a>
-        <a href="#lien-he">Liên Hệ</a>
-    </nav>
-
     <div class="container">
-
         <section id="mon-hoc">
-            <h2>Danh Mục Môn Học & Hình Thức</h2>
+            <h2>📚 Môn Học & Hình Thức</h2>
             <div class="info-grid">
-                <div class="card-box">
-                    <h3>📚 Môn học</h3>
-                    <ul>
-                        <li><strong>Môn chính:</strong> Toán học.</li>
-                        <li><strong>Phân môn:</strong> Đại số và Hình học.</li>
-                        <li><strong>Đối tượng:</strong> Học sinh lớp 6 và lớp 8.</li>
-                    </ul>
+                <div>
+                    <p><strong>Môn:</strong> Toán (Đại số & Hình học)</p>
+                    <p><strong>Đối tượng:</strong> Lớp 6 & Lớp 8</p>
                 </div>
-                <div class="card-box">
-                    <h3>🏫 Hình thức & Thời lượng</h3>
-                    <ul>
-                        <li><strong>Hình thức:</strong> Học trực tiếp (Offline) tại lớp.</li>
-                        <li><strong>Thời lượng:</strong> 3 tiếng / 1 buổi học.</li>
-                        <li><strong>Cấu trúc:</strong> 90p Đại số + 15p Giải lao + 90p Hình học.</li>
-                    </ul>
+                <div>
+                    <p><strong>Thời lượng:</strong> 3 tiếng/buổi</p>
+                    <p><strong>Cấu trúc:</strong> 90p Đại + 15p Nghỉ + 90p Hình</p>
                 </div>
             </div>
         </section>
 
         <section id="giao-vien">
-            <h2>Đội Ngũ Giáo Viên</h2>
+            <h2>👨‍🏫 Đội Ngũ Giáo Viên</h2>
             <div class="teacher-card">
                 <h3>Thầy Trần Văn Tình</h3>
-                <p><strong>Vai trò:</strong> Chủ nhiệm lớp / Quản lý chuyên môn.</p>
-                <p><strong>Quê quán:</strong> Thanh Liêm, Hà Nam.</p>
-                <p><strong>Liên hệ:</strong> 0976 015 863 - 0988 339 256.</p>
+                <p>Chủ nhiệm lớp. SĐT: 0976 015 863</p>
             </div>
-
             <div class="teacher-card">
                 <h3>Cô Lê Thị Phương</h3>
-                <p><strong>Trình độ:</strong> VB1 Tin học & VB2 Toán học (ĐH Sư phạm Hà Nội).</p>
-                <p><strong>Đơn vị công tác:</strong> Tiên Tân, Phủ Lý.</p>
-                <p><strong>Số điện thoại:</strong> 0389 914 628.</p>
+                <p>Cử nhân Toán - Tin (ĐH Sư Phạm HN). SĐT: 0389 914 628</p>
             </div>
         </section>
 
         <section id="lich-hoc">
-            <h2>Thời Khóa Biểu & Địa Điểm</h2>
-            <p><strong>📍 Địa điểm:</strong> Số 12 Ngõ 36 Phố Nguyễn Quốc Hiệu, KĐT Nam Trần Hưng Đạo, Phủ Lý.</p>
+            <h2>📅 Thời Gian & Địa Điểm</h2>
+            <p><strong>Địa chỉ:</strong> Số 12 Ngõ 36 Phố Nguyễn Quốc Hiệu, KĐT Nam Trần Hưng Đạo, Phủ Lý.</p>
             <table>
-                <thead>
-                    <tr>
-                        <th>Ngày học</th>
-                        <th>Khung giờ</th>
-                        <th>Chi tiết</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Thứ 5 hàng tuần</td>
-                        <td>17h30 - 20h45</td>
-                        <td>Học sinh học ghép cả 2 ca (Đại số & Hình học) để đảm bảo thời lượng.</td>
-                    </tr>
-                </tbody>
+                <tr>
+                    <th>Lịch học</th>
+                    <th>Thời gian</th>
+                </tr>
+                <tr>
+                    <td>Thứ 5 hàng tuần</td>
+                    <td>17h30 - 20h45</td>
+                </tr>
             </table>
         </section>
 
         <section id="hoc-phi">
-            <h2>Mức Thu Tiền Học Thêm</h2>
-            <div class="fee-box">
-                <p>Mức học phí trọn gói / tháng</p>
-                <span class="price-highlight">700.000 VNĐ</span>
-                <p><em>(Cố định hàng tháng bất kể số buổi, kể cả tháng Tết/Lễ)</em></p>
-                <hr style="border-color: #ffeeba; margin: 15px 0;">
-                <p style="text-align: left;">
-                    <strong>🔹 HS mới vào giữa tháng:</strong> 175.000đ / buổi.<br>
-                    <strong>🔹 Thời gian đóng:</strong> Mùng 1 - Mùng 8 hàng tháng.<br>
-                    <strong>🔹 Hình thức:</strong> Chuyển khoản ngân hàng.
-                </p>
+            <h2>💰 Học Phí</h2>
+            <div style="background: #fff3cd; padding: 15px; border-radius: 5px; text-align: center;">
+                <h3 style="color: #e74c3c; font-size: 1.8rem; margin: 10px 0;">700.000 VNĐ / tháng</h3>
+                <p>(Học sinh vào giữa tháng: 175.000đ/buổi)</p>
+                <p><strong>Thu tiền:</strong> Mùng 1 - Mùng 8 hàng tháng.</p>
             </div>
         </section>
 
-        <section>
+        <section id="noi-quy">
             <h2>⚠️ Nội Quy Tóm Tắt</h2>
             <ul>
-                <li>Nộp BTVN cho Trợ giảng trước giờ vào lớp.</li>
-                <li>Nghỉ học phải nộp BTVN bù vào buổi sau.</li>
-                <li>Vi phạm kỷ luật (mất trật tự, chép thiếu bài) sẽ bị phạt chép "Lời dạy Bác Hồ".</li>
+                <li>Nộp BTVN trước giờ học. Không có bài = Không vào lớp.</li>
+                <li>Nghỉ học vẫn phải nộp bài và làm bù.</li>
+                <li>Mất trật tự chép phạt "Lời dạy Bác Hồ".</li>
             </ul>
         </section>
-
     </div>
 
-    <footer id="lien-he">
-        <h3>LỚP TOÁN THẦY TRẦN TÌNH</h3>
-        <p>Địa chỉ: KĐT Nam Trần Hưng Đạo, Phủ Lý, Hà Nam.</p>
-        <p>Hotline: 0976 015 863</p>
-        <p>&copy; 2025 - Loptoanthaytrantinh.</p>
+    <footer>
+        <p>LỚP TOÁN THẦY TRẦN TÌNH<br>Hotline: 0976 015 863</p>
     </footer>
 
     <script>
-        // Sử dụng Intersection Observer để phát hiện khi nào người dùng cuộn tới phần tử
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15 // Khi 15% phần tử xuất hiện thì kích hoạt
-        };
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        const navLinks = document.querySelectorAll(".nav-link");
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Chỉ chạy 1 lần
-                }
-            });
-        }, observerOptions);
-
-        // Áp dụng cho tất cả thẻ section
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
+        // 1. Khi bấm vào icon 3 gạch
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
         });
+
+        // 2. Khi bấm vào một link bất kỳ, menu tự động đóng lại
+        navLinks.forEach(n => n.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+        }));
     </script>
 
 </body>
