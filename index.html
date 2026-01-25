@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lớp Toán Thầy Trần Tình - Phủ Lý, Hà Nam</title>
+    <title>Trung Tâm Giáo Dục Edu - Phủ Lý, Hà Nam</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- THIẾT LẬP CƠ BẢN --- */
+        /* --- THIẾT LẬP CƠ BẢN (Giữ nguyên từ code gốc) --- */
         :root {
             --primary-color: #0056b3;
+            --secondary-color: #28a745;
+            /* Màu cho môn Văn */
             --text-color: #333;
             --accent-color: #e74c3c;
             --nav-bg: #343a40;
@@ -21,29 +24,39 @@
             padding: 0;
             color: var(--text-color);
             background-color: #f4f4f4;
-            padding-top: 60px; /* Khoảng trống để không bị Header che mất nội dung đầu tiên */
+            padding-top: 60px;
         }
 
-        /* --- HEADER (LOGO & TITLE) --- */
+        /* --- HEADER --- */
         header {
             background: linear-gradient(135deg, #0056b3 0%, #004494 100%);
             color: white;
-            padding: 30px 20px;
+            padding: 30px 20px 10px;
+            /* Giảm padding dưới để nhường chỗ cho Tab */
             text-align: center;
         }
 
-        header h1 { margin: 0; font-size: 2.2rem; text-transform: uppercase; }
-        header p { margin: 10px 0 0; font-size: 1.1rem; opacity: 0.9; }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+        }
 
-        /* --- NAVIGATION (THANH MENU) --- */
+        header p {
+            margin: 10px 0 20px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* --- NAVIGATION --- */
         .navbar {
             background-color: var(--nav-bg);
-            position: fixed; /* Luôn dính trên cùng */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             height: 60px;
             display: flex;
             align-items: center;
@@ -52,23 +65,21 @@
             box-sizing: border-box;
         }
 
-        /* Logo nhỏ trên thanh menu (hiện khi cuộn hoặc trên mobile) */
         .nav-brand {
             color: white;
             font-weight: bold;
             font-size: 1.2rem;
             text-decoration: none;
-            display: none; /* Mặc định ẩn, chỉ hiện trên mobile hoặc tùy ý */
+            display: none;
         }
 
-        /* Danh sách menu */
         .nav-menu {
             display: flex;
             list-style: none;
             margin: 0;
             padding: 0;
             width: 100%;
-            justify-content: center; /* Căn giữa trên Desktop */
+            justify-content: center;
         }
 
         .nav-item {
@@ -89,7 +100,6 @@
             color: var(--accent-color);
         }
 
-        /* Nút Hamburger (Ẩn trên Desktop) */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -104,11 +114,72 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* --- CONTAINER --- */
+        /* --- TAB CONTROLS (MỚI) --- */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style riêng cho nút Văn khi active */
+        .tab-btn[data-tab="van"].active {
+            color: var(--secondary-color);
+        }
+
+        /* --- CONTENT WRAPPERS --- */
         .container {
             max-width: 1100px;
             margin: auto;
             padding: 20px;
+        }
+
+        .subject-tab {
+            display: none;
+            /* Mặc định ẩn */
+            animation: fadeIn 0.5s;
+        }
+
+        .subject-tab.active {
+            display: block;
+            /* Hiện tab đang chọn */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         section {
@@ -116,71 +187,132 @@
             padding: 30px;
             margin-bottom: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            scroll-margin-top: 80px; /* Để khi click menu không bị che mất tiêu đề */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            scroll-margin-top: 80px;
         }
 
-        h2 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
 
-        /* Bảng và Grid */
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: var(--primary-color); color: white; }
+        /* Màu tiêu đề đổi theo môn */
+        #tab-toan h2 {
+            color: var(--primary-color);
+        }
 
-        /* Card Giáo viên */
+        #tab-van h2 {
+            color: var(--secondary-color);
+        }
+
+        #tab-van .teacher-card {
+            border-left-color: var(--secondary-color);
+        }
+
+        #tab-van th {
+            background-color: var(--secondary-color);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            color: white;
+        }
+
+        /* Background set theo tab ở trên */
+
         .teacher-card {
-            border-left: 4px solid var(--primary-color);
+            border-left: 4px solid;
+            /* Màu set theo tab */
             background: #f9f9f9;
             padding: 15px;
             margin-bottom: 15px;
         }
 
-        /* Footer */
-        footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
 
-        /* --- RESPONSIVE MOBILE (QUAN TRỌNG) --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .nav-brand { display: block; } /* Hiện tên lớp học góc trái */
-            
-            .hamburger {
-                display: block; /* Hiện nút 3 gạch */
-                margin-left: auto; /* Đẩy sang phải */
+            .nav-brand {
+                display: block;
             }
 
-            .hamburger.active .bar:nth-child(2) { opacity: 0; }
-            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            .hamburger {
+                display: block;
+                margin-left: auto;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
 
             .nav-menu {
                 position: fixed;
-                left: -100%; /* Giấu menu sang bên trái */
-                top: 60px; /* Nằm ngay dưới thanh header */
+                left: -100%;
+                top: 60px;
                 flex-direction: column;
                 background-color: var(--nav-bg);
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
-                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
                 padding-bottom: 20px;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
             }
 
             .nav-menu.active {
-                left: 0; /* Trượt ra khi active */
+                left: 0;
             }
 
-            .nav-item { margin: 20px 0; }
-            
-            .info-grid { grid-template-columns: 1fr; }
-            
-            header h1 { font-size: 1.5rem; }
+            .nav-item {
+                margin: 20px 0;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
-        <a href="#" class="nav-brand">LỚP TOÁN THẦY TÌNH</a>
+        <a href="#" class="nav-brand">TRUNG TÂM EDU</a>
 
         <div class="hamburger">
             <span class="bar"></span>
@@ -189,103 +321,208 @@
         </div>
 
         <ul class="nav-menu">
-            <li class="nav-item"><a href="#mon-hoc" class="nav-link">Môn Học</a></li>
-            <li class="nav-item"><a href="#giao-vien" class="nav-link">Giáo Viên</a></li>
-            <li class="nav-item"><a href="#lich-hoc" class="nav-link">Lịch Học</a></li>
-            <li class="nav-item"><a href="#hoc-phi" class="nav-link">Học Phí</a></li>
-            <li class="nav-item"><a href="#noi-quy" class="nav-link">Nội Quy</a></li>
+            <li class="nav-item"><a href="#mon-hoc-toan" class="nav-link" data-link="mon-hoc">Môn Học</a></li>
+            <li class="nav-item"><a href="#giao-vien-toan" class="nav-link" data-link="giao-vien">Giáo Viên</a></li>
+            <li class="nav-item"><a href="#lich-hoc-toan" class="nav-link" data-link="lich-hoc">Lịch Học</a></li>
+            <li class="nav-item"><a href="#hoc-phi-toan" class="nav-link" data-link="hoc-phi">Học Phí</a></li>
+            <li class="nav-item"><a href="#noi-quy-toan" class="nav-link" data-link="noi-quy">Nội Quy</a></li>
         </ul>
     </nav>
 
     <header>
         <div class="container">
-            <h1>LỚP TOÁN THẦY TRẦN TÌNH</h1>
-            <p>Chuyên luyện thi Toán Khối 6 & Khối 8 tại Phủ Lý, Hà Nam</p>
+            <h1>TRUNG TÂM GIÁO DỤC EDU</h1>
+            <p>Chuyên luyện thi Toán & Ngữ Văn chất lượng cao</p>
+
+            <div class="tab-container">
+                <button class="tab-btn active" onclick="switchTab('toan')" data-tab="toan">TOÁN HỌC</button>
+                <button class="tab-btn" onclick="switchTab('van')" data-tab="van">NGỮ VĂN</button>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <section id="mon-hoc">
-            <h2>📚 Môn Học & Hình Thức</h2>
-            <div class="info-grid">
-                <div>
-                    <p><strong>Môn:</strong> Toán (Đại số & Hình học)</p>
-                    <p><strong>Đối tượng:</strong> Lớp 6 & Lớp 8</p>
+
+        <div id="tab-toan" class="subject-tab active">
+            <section id="mon-hoc-toan">
+                <h2>📚 Môn Toán & Hình Thức</h2>
+                <div class="info-grid">
+                    <div>
+                        <p><strong>Môn:</strong> Toán (Đại số & Hình học)</p>
+                        <p><strong>Đối tượng:</strong> Lớp 6 & Lớp 8</p>
+                    </div>
+                    <div>
+                        <p><strong>Thời lượng:</strong> 3 tiếng/buổi</p>
+                        <p><strong>Cấu trúc:</strong> 90p Đại + 15p Nghỉ + 90p Hình</p>
+                    </div>
                 </div>
-                <div>
-                    <p><strong>Thời lượng:</strong> 3 tiếng/buổi</p>
-                    <p><strong>Cấu trúc:</strong> 90p Đại + 15p Nghỉ + 90p Hình</p>
+            </section>
+
+            <section id="giao-vien-toan">
+                <h2>👨‍🏫 Giáo Viên Toán</h2>
+                <div class="teacher-card">
+                    <h3>Thầy Trần Văn Tình</h3>
+                    <p>Chủ nhiệm lớp Toán. SĐT: 0976 015 863</p>
                 </div>
-            </div>
-        </section>
+                <div class="teacher-card">
+                    <h3>Cô Lê Thị Phương</h3>
+                    <p>Cử nhân Toán - Tin (ĐH Sư Phạm HN). SĐT: 0389 914 628</p>
+                </div>
+            </section>
 
-        <section id="giao-vien">
-            <h2>👨‍🏫 Đội Ngũ Giáo Viên</h2>
-            <div class="teacher-card">
-                <h3>Thầy Trần Văn Tình</h3>
-                <p>Chủ nhiệm lớp. SĐT: 0976 015 863</p>
-            </div>
-            <div class="teacher-card">
-                <h3>Cô Lê Thị Phương</h3>
-                <p>Cử nhân Toán - Tin (ĐH Sư Phạm HN). SĐT: 0389 914 628</p>
-            </div>
-        </section>
+            <section id="lich-hoc-toan">
+                <h2>📅 Lịch Học Toán</h2>
+                <p><strong>Địa chỉ:</strong> Số 12 Ngõ 36 Phố Nguyễn Quốc Hiệu, KĐT Nam Trần Hưng Đạo, Phủ Lý.</p>
+                <table>
+                    <tr>
+                        <th style="background-color: var(--primary-color);">Lịch học</th>
+                        <th style="background-color: var(--primary-color);">Thời gian</th>
+                    </tr>
+                    <tr>
+                        <td>Thứ 5 hàng tuần</td>
+                        <td>17h30 - 20h45</td>
+                    </tr>
+                </table>
+            </section>
 
-        <section id="lich-hoc">
-            <h2>📅 Thời Gian & Địa Điểm</h2>
-            <p><strong>Địa chỉ:</strong> Số 12 Ngõ 36 Phố Nguyễn Quốc Hiệu, KĐT Nam Trần Hưng Đạo, Phủ Lý.</p>
-            <table>
-                <tr>
-                    <th>Lịch học</th>
-                    <th>Thời gian</th>
-                </tr>
-                <tr>
-                    <td>Thứ 5 hàng tuần</td>
-                    <td>17h30 - 20h45</td>
-                </tr>
-            </table>
-        </section>
+            <section id="hoc-phi-toan">
+                <h2>💰 Học Phí Môn Toán</h2>
+                <div
+                    style="background: #e3f2fd; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #bbdefb;">
+                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin: 10px 0; font-weight: 800;">
+                        Chỉ từ 30.000 VNĐ / Buổi học
+                    </h3>
+                </div>
+            </section>
 
-        <section id="hoc-phi">
-            <h2>💰 Học Phí</h2>
-            <div style="background: #fff3cd; padding: 15px; border-radius: 5px; text-align: center;">
-                <h3 style="color: #e74c3c; font-size: 1.8rem; margin: 10px 0;">700.000 VNĐ / tháng</h3>
-                <p>(Học sinh vào giữa tháng: 175.000đ/buổi)</p>
-                <p><strong>Thu tiền:</strong> Mùng 1 - Mùng 8 hàng tháng.</p>
-            </div>
-        </section>
+            <section id="noi-quy-toan">
+                <h2>⚠️ Nội Quy Lớp Toán</h2>
+                <ul>
+                    <li>Nộp BTVN Toán trước giờ học. Không có bài = Không vào lớp.</li>
+                    <li>Nghỉ học vẫn phải nộp bài và làm bù.</li>
+                    <li>Mất trật tự chép phạt công thức Toán.</li>
+                </ul>
+            </section>
+        </div>
 
-        <section id="noi-quy">
-            <h2>⚠️ Nội Quy Tóm Tắt</h2>
-            <ul>
-                <li>Nộp BTVN trước giờ học. Không có bài = Không vào lớp.</li>
-                <li>Nghỉ học vẫn phải nộp bài và làm bù.</li>
-                <li>Mất trật tự chép phạt "Lời dạy Bác Hồ".</li>
-            </ul>
-        </section>
+        <div id="tab-van" class="subject-tab">
+            <section id="mon-hoc-van">
+                <h2>📖 Môn Văn & Hình Thức</h2>
+                <div class="info-grid">
+                    <div>
+                        <p><strong>Môn:</strong> Ngữ Văn (Đọc hiểu & Làm văn)</p>
+                        <p><strong>Đối tượng:</strong> Lớp 6 & Lớp 8</p>
+                    </div>
+                    <div>
+                        <p><strong>Thời lượng:</strong> 3 tiếng/buổi</p>
+                        <p><strong>Cấu trúc:</strong> 90p Đọc hiểu + 15p Nghỉ + 90p Viết</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="giao-vien-van">
+                <h2>👩‍🏫 Giáo Viên Văn</h2>
+                <div class="teacher-card">
+                    <h3>Cô Nguyễn Thị Lan</h3>
+                    <p>Thạc sĩ Ngữ Văn (ĐH Sư Phạm HN). Chủ nhiệm lớp Văn.</p>
+                </div>
+                <div class="teacher-card">
+                    <h3>Cô Phạm Thu Hà</h3>
+                    <p>Giáo viên giỏi cấp Tỉnh. Chuyên luyện thi Văn.</p>
+                </div>
+            </section>
+
+            <section id="lich-hoc-van">
+                <h2>📅 Lịch Học Văn</h2>
+                <p><strong>Địa chỉ:</strong> Số 12 Ngõ 36 Phố Nguyễn Quốc Hiệu, KĐT Nam Trần Hưng Đạo, Phủ Lý.</p>
+                <table>
+                    <tr>
+                        <th style="background-color: var(--secondary-color);">Lịch học</th>
+                        <th style="background-color: var(--secondary-color);">Thời gian</th>
+                    </tr>
+                    <tr>
+                        <td>Thứ 7 hàng tuần</td>
+                        <td>18h00 - 21h00</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="hoc-phi-van">
+                <h2>💰 Học Phí Môn Ngữ Văn</h2>
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 5px; text-align: center;">
+                    <h3 style="color: var(--secondary-color); font-size: 1.8rem; margin: 10px 0;"> Chỉ từ 30.000 VNĐ / Buổi học
+                    </h3>
+
+                </div>
+            </section>
+
+            <section id="noi-quy-van">
+                <h2>⚠️ Nội Quy Lớp Văn</h2>
+                <ul>
+                    <li>Soạn bài đầy đủ trước khi đến lớp.</li>
+                    <li>Yêu cầu đọc sách ít nhất 30 phút mỗi ngày.</li>
+                    <li>Viết chữ sạch đẹp, trình bày rõ ràng.</li>
+                </ul>
+            </section>
+        </div>
+
     </div>
 
     <footer>
-        <p>LỚP TOÁN THẦY TRẦN TÌNH<br>Hotline: 0976 015 863</p>
+        <p>TRUNG TÂM GIÁO DỤC EDU<br>Hotline: 0976 015 863</p>
     </footer>
 
     <script>
+        // --- LOGIC MENU MOBILE ---
         const hamburger = document.querySelector(".hamburger");
         const navMenu = document.querySelector(".nav-menu");
         const navLinks = document.querySelectorAll(".nav-link");
 
-        // 1. Khi bấm vào icon 3 gạch
         hamburger.addEventListener("click", () => {
             hamburger.classList.toggle("active");
             navMenu.classList.toggle("active");
         });
 
-        // 2. Khi bấm vào một link bất kỳ, menu tự động đóng lại
         navLinks.forEach(n => n.addEventListener("click", () => {
             hamburger.classList.remove("active");
             navMenu.classList.remove("active");
         }));
+
+        // --- LOGIC CHUYỂN TAB ---
+        function switchTab(subject) {
+            // 1. Ẩn tất cả nội dung tab
+            document.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 2. Bỏ trạng thái active của nút bấm
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 3. Hiện tab được chọn
+            document.getElementById('tab-' + subject).classList.add('active');
+
+            // 4. Active nút bấm tương ứng
+            document.querySelector(`.tab-btn[data-tab="${subject}"]`).classList.add('active');
+
+            // 5. Cập nhật Link Menu (Navbar) để trỏ đến đúng ID của môn đó
+            // Ví dụ: Đang ở Toán thì link "Lịch Học" trỏ về #lich-hoc-toan
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const sectionName = link.getAttribute('data-link'); // mon-hoc, giao-vien...
+                link.setAttribute('href', `#${sectionName}-${subject}`);
+            });
+
+            // 6. Đổi màu nền Header theo môn học (Tuỳ chọn thêm cho đẹp)
+            const header = document.querySelector('header');
+            if (subject === 'van') {
+                header.style.background = 'linear-gradient(135deg, #28a745 0%, #1e7e34 100%)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #0056b3 0%, #004494 100%)';
+            }
+        }
     </script>
 
 </body>
+
 </html>
